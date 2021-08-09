@@ -1,4 +1,4 @@
-package main
+package postgres
 
 import  (
 	"fmt"
@@ -61,7 +61,7 @@ func SelectLongUrlFromDB(longurl string) {
 	CheckError(err)
 }
 
-func main () {
+func Postgres () {
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
          
         // open database

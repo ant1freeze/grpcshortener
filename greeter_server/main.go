@@ -26,7 +26,8 @@ import (
 	//"math/rand"
 	//"time"
 	"google.golang.org/grpc"
-	pb "github.com/ant1freeze/grpcshortener/helloworld"
+	pb "github.com/ant1freeze/grpcshortener"
+	pg "github.com/ant1freeze/grpcshortener/greeter_server/postgres"
 )
 
 const (

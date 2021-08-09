@@ -26,7 +26,7 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
-	pb "github.com/ant1freeze/grpcshortener/helloworld"
+	pb "github.com/ant1freeze/grpcshortener"
 )
 
 const (
