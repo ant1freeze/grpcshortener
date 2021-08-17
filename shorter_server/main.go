@@ -28,6 +28,7 @@ import (
 	get "github.com/ant1freeze/grpcshortener/shorter_server/geturl"
 	pg "github.com/ant1freeze/grpcshortener/shorter_server/postgres"
 	ru "github.com/ant1freeze/grpcshortener/shorter_server/randomurl"
+	cfg "github.com/ant1freeze/grpcshortener/shorter_server/config"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -43,6 +44,7 @@ type server struct {
 }
 
 var db *sql.DB
+var cfg cfg.Config
 
 const (
 	host     = "localhost"
@@ -52,24 +54,26 @@ const (
 	dbname   = "alex"
 )
 
-var psqlconn string = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, dbport, user, password, dbname)
+//Make string for connect to DB
+var psqlconn string = fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable",cfg.DB.DBUser, cfg.DB.DBPass, cfg.DB.DBHost, cfg.DB.DBPort, cfg.DB.DBName)
+//var psqlconn string = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, dbport, user, password, dbname)
 
 func (s *server) CreateUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, error) {
 	log.Printf("\nMethod: Create\nReceived url: %v", in.GetUrlreq())
-	db, err := pg.Postgres(psqlconn)
+	db, err := pg.Postgres(psqlconn)//open and check db
 	if err != nil {
 		return &pb.UrlReply{Urlrep: "error with db"}, err
 	}
 
-	shorturl, err := cr.SelectShortUrl(in.GetUrlreq(), db)
+	shorturl, err := cr.SelectShortUrl(in.GetUrlreq(), db) //try find shorturl in DB
 	if err != nil {
 		return &pb.UrlReply{Urlrep: "error with SelectShortUrl"}, err
 	}
-	if shorturl != "" {
+	if shorturl != "" { //if we found shorturl, return it
 		return &pb.UrlReply{Urlrep: shorturl}, err
 	} else {
-		shorturl = ru.CreateRandomUrl(10)
-		err := cr.InsertUrl(in.GetUrlreq(), shorturl, db)
+		shorturl = ru.CreateRandomUrl(10) //if didn't find, create random 10 letters
+		err := cr.InsertUrl(in.GetUrlreq(), shorturl, db) //add new shorturl in db
 		if err != nil {
 			return &pb.UrlReply{Urlrep: "error with InsertUrl"}, err
 		}
@@ -79,11 +83,11 @@ func (s *server) CreateUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply
 
 func (s *server) GetUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, error) {
 	log.Printf("\nMethod: Get\nReceived url: %v", in.GetUrlreq())
-	db, err := pg.Postgres(psqlconn)
+	db, err := pg.Postgres(psqlconn) //open and check db
 	if err != nil {
 		return &pb.UrlReply{Urlrep: "error with db"}, err
 	}
-	longurl, err := get.SelectLongUrl(in.GetUrlreq(), db)
+	longurl, err := get.SelectLongUrl(in.GetUrlreq(), db) //try find longurl in db
 	if err != nil {
 		return &pb.UrlReply{Urlrep: longurl}, err
 	}
@@ -91,7 +95,7 @@ func (s *server) GetUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, e
 }
 
 func main() {
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", cfg.DB.HTTP_PORT)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

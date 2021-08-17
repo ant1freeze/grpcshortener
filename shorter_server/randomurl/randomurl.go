@@ -1,3 +1,6 @@
+//Package contains 1 func
+//CreateRandomUrl - make string from 10 random letters from symbols a-z A-Z _
+
 package randomurl
 
 import  (

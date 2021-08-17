@@ -1,4 +1,7 @@
-package postgres
+//Package contains 1 func 
+//SelectLongUrl - for search long url in DB if we receive shorturl; return longurl or text "Didn't find anything" if longurl doesn't exist
+
+package geturl
 
 import (
 	"database/sql"

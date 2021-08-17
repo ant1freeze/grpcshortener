@@ -1,3 +1,6 @@
+//Package contains 1 func
+//Postgres - open DB and chect it is ok
+
 package postgres
 
 import  (

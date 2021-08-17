@@ -1,4 +1,9 @@
-package postgres
+/*
+Package contains 2 func:
+InsertUrl - for insert string with shorturl and longurl in DB
+SelectShortUrl - for search shorturl in DB if we receive longurl; return shorturl
+*/
+package createurl
 
 import  (
 	"fmt"

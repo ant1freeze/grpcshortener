@@ -4,7 +4,7 @@ import (
 	"testing"
 	"regexp"
 	"fmt"
-	get "github.com/ant1freeze/grpcshortener/greeter_server/geturl"
+	get "github.com/ant1freeze/grpcshortener/shorter_server/geturl"
 	"database/sql"
         _ "github.com/lib/pq"
 
