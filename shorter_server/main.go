@@ -28,7 +28,7 @@ import (
 	get "github.com/ant1freeze/grpcshortener/shorter_server/geturl"
 	pg "github.com/ant1freeze/grpcshortener/shorter_server/postgres"
 	ru "github.com/ant1freeze/grpcshortener/shorter_server/randomurl"
-	cfg "github.com/ant1freeze/grpcshortener/shorter_server/config"
+	cfg "github.com/ant1freeze/grpcshortener/config"
 	"google.golang.org/grpc"
 	"log"
 	"net"
