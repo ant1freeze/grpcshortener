@@ -1,8 +1,8 @@
 package postgres
 
-import  (
-	"fmt"
+import (
 	"database/sql"
+	"fmt"
 	_ "github.com/lib/pq"
 )
 
@@ -21,9 +21,8 @@ func SelectLongUrl(shorturl string, database *sql.DB) (longurl string, err error
 			return "Can't make rows.Scan(longurl)", err
 		}
 	}
-	if longurl == "" {
+	if string(longurl) == "" {
 		longurl = "Didn't find anything."
 	}
-	return longurl, err
+	return string(longurl), err
 }
-

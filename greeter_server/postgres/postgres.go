@@ -8,8 +8,6 @@ import  (
 var db *sql.DB
 
 func Postgres (psqlconn string) (*sql.DB, error) {
-//	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
         // open database
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
