@@ -1,4 +1,4 @@
-package postgres
+package randomurl
 
 import  (
 	"math/rand"
@@ -6,8 +6,6 @@ import  (
 )
 
 const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
-
-//var database *sql.DB
 
 func CreateRandomUrl(i int) string {
         rand.Seed(time.Now().UnixNano())

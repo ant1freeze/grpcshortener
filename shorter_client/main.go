@@ -16,7 +16,7 @@
  *
  */
 
-// Package main implements a client for Greeter service.
+// Package main implements a client for GRPc URL Shortener service.
 package main
 
 import (
@@ -53,19 +53,20 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+	// Check what method is in request
 	if method == "create" {
-		r, err := c.CreateUrl(ctx, &pb.UrlRequest{Urlreq: url})
+		r, err := c.CreateUrl(ctx, &pb.UrlRequest{Urlreq: url}) //receive long url, find in db or create short url, insert it in db and return it 
 		if err != nil {
 			log.Fatalf("Can't create short url: %v", err)
 		}
 		log.Printf("localhost/%s",r.GetUrlrep())
 	} else if method == "get" {
-		r, err := c.GetUrl(ctx, &pb.UrlRequest{Urlreq: url})
+		r, err := c.GetUrl(ctx, &pb.UrlRequest{Urlreq: url}) //receive short url, find it in db and return long url or null if it not exist
                 if err != nil {
                         log.Fatalf("Can't get long url: %v", err)
                 }
 		log.Printf("%s",r.GetUrlrep())
-	} else if method == "testMethod" {
+	} else if method == "testMethod" { //if Args < 3, print help
 		log.Println("Need type 'get <short URL>' or 'create <long URL>'")
 	} else {
 		log.Println("Please choose one of two methods:\n-Get\n-Create\n\nafter method type Long or Short URL")
