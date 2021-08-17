@@ -31,7 +31,6 @@ import (
 
 const (
 	address     = "localhost:50051"
-	defaultName = "world"
 )
 
 func main() {
@@ -44,15 +43,31 @@ func main() {
 	c := pb.NewUrlShortenerClient(conn)
 
 	// Contact the server and print out its response.
-	name := defaultName
-	if len(os.Args) > 1 {
-		name = os.Args[1]
+	var url, method string
+	if len(os.Args) >= 3 {
+		method = os.Args[1]
+		url = os.Args[2]
+	} else {
+		method = "testMethod"
+		url = "testUrl"
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.Shorter(ctx, &pb.UrlRequest{Longurl: name})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+	if method == "create" {
+		r, err := c.CreateUrl(ctx, &pb.UrlRequest{Urlreq: url})
+		if err != nil {
+			log.Fatalf("Can't create short url: %v", err)
+		}
+		log.Printf("localhost/%s",r.GetUrlrep())
+	} else if method == "get" {
+		r, err := c.GetUrl(ctx, &pb.UrlRequest{Urlreq: url})
+                if err != nil {
+                        log.Fatalf("Can't get long url: %v", err)
+                }
+		log.Printf("%s",r.GetUrlrep())
+	} else if method == "testMethod" {
+		log.Println("Need type 'get <short URL>' or 'create <long URL>'")
+	} else {
+		log.Println("Please choose one of two methods:\n-Get\n-Create\n\nafter method type Long or Short URL")
 	}
-	log.Printf("Greeting: %s", r.GetShorturl())
 }

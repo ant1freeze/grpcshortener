@@ -1,0 +1,104 @@
+package postgres
+
+import  (
+	"fmt"
+	"database/sql"
+	_ "github.com/lib/pq"
+
+//	ru "github.com/ant1freeze/grpcshortener/greeter_server/randomurl"
+)
+
+const (
+    host     = "localhost"
+    port     = 5432
+    user     = "alex"
+    password = "alexpass"
+    dbname   = "alex"
+)
+
+
+var db *sql.DB
+
+
+//func InsertUrl(longurl, shorturl string ) error {
+//	insertStr := `insert into "urls"(longurl, shorturl) values('`+longurl+`','`+shorturl+`')`
+//	_, err := database.Exec(insertStr)
+ //      if err != nil {
+//		return err
+//	}
+//	return nil
+//}
+
+//func SelectShortUrl(longurl string) (shorturl string, err error) {
+//	rows, err := database.Query(`SELECT "shorturl" FROM "urls" WHERE longurl ='`+longurl+`'`)
+//	if err != nil {
+//		return "", err
+//	}
+//	defer rows.Close()
+//	for rows.Next() {
+//		err = rows.Scan(&shorturl)
+//		if err != nil {
+//			return "", err
+//		}
+//		fmt.Println("shorturl: ",shorturl)
+//	}
+//	return  shorturl, err
+//}
+
+//func SelectLongUrl(shorturl string) (longurl string, err error) {
+//	rows, err := database.Query(`SELECT "longurl" FROM "urls" WHERE shorturl ='`+shorturl+`'`)
+//      if err != nil {
+//		return "", err
+//	}
+//      defer rows.Close()
+//    for rows.Next() {
+//		err = rows.Scan(&longurl)
+//		if err != nil {
+//			return "", err
+//		}
+//		fmt.Println("longurl: ",longurl)
+//      }
+//	return longurl, err
+//}
+
+func Postgres (psqlconn string) (*sql.DB, error) {
+//	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+
+        // open database
+	db, err := sql.Open("postgres", psqlconn)
+	if err != nil {
+		return db, err
+	}
+	fmt.Println("Connected to DB!")
+//	database = db
+
+	// close database
+	defer db.Close()
+
+        // check db
+	err = db.Ping()
+	if err != nil {
+		return db, err
+	}
+	return db, err
+//	longurlfromdb, err := SelectLongUrl(longurl)
+
+//	fmt.Println(longurlfromdb)
+
+//	shorturlfromdb, err := SelectShortUrl(longurl)
+//	if err != nil {
+//		return "", err
+//	}
+//	if shorturlfromdb != "" {
+//		shorturl = shorturlfromdb
+//		fmt.Println("test1: ",shorturl)
+//		return shorturl, err
+//	} else {
+//		shorturl = ru.CreateRandomUrl(10)
+//		err := InsertUrl(longurl,shorturl)
+//		if err != nil {
+//			return "", err
+//		}
+//	}
+//	return longurlfromdb, err
+}

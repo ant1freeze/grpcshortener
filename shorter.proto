@@ -19,20 +19,22 @@ option java_multiple_files = true;
 option java_package = "io.grpc.examples.helloworld";
 option java_outer_classname = "HelloWorldProto";
 
-package helloworld;
+package shortener;
 
 // The greeting service definition.
 service UrlShortener {
-  // Sends a greeting
-  rpc Shorter (UrlRequest) returns (UrlReply) {}
+  // Receive long url, reply short url
+  rpc CreateUrl (UrlRequest) returns (UrlReply) {}
+  // Receive shorturl, find it in DB, reply longurl from DB
+  rpc GetUrl (UrlRequest) returns (UrlReply) {}
 }
 
 // The request message containing the user's name.
 message UrlRequest {
-  string longurl = 1;
+  string urlreq = 1;
 }
 
 // The response message containing the greetings
 message UrlReply {
-  string shorturl = 1;
+  string urlrep = 1;
 }
