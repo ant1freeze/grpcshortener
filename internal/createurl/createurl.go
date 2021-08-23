@@ -12,7 +12,6 @@ import  (
 
 func InsertUrl(longurl, shorturl string, database *sql.DB ) error {
 	var insertStr string = fmt.Sprintf("insert into urls(longurl, shorturl) values('%s','%s')", longurl, shorturl)
-	fmt.Printf(insertStr)
 	_, err := database.Exec(insertStr)
         if err != nil {
 		return err
@@ -22,7 +21,6 @@ func InsertUrl(longurl, shorturl string, database *sql.DB ) error {
 
 func SelectShortUrl(longurl string, database *sql.DB) (shorturl string, err error) {
 	var selectStr string = fmt.Sprintf("SELECT shorturl FROM urls WHERE longurl = '%s'", longurl)
-	fmt.Printf(selectStr)
 	rows, err := database.Query(selectStr)
 	if err != nil {
 		return "Can't make query 'SELECT shorturl' from urls table.", err

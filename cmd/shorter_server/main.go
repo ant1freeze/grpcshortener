@@ -24,18 +24,15 @@ import (
 	"database/sql"
 	"fmt"
 	pb "github.com/ant1freeze/grpcshortener"
-	cr "github.com/ant1freeze/grpcshortener/shorter_server/createurl"
-	get "github.com/ant1freeze/grpcshortener/shorter_server/geturl"
-	pg "github.com/ant1freeze/grpcshortener/shorter_server/postgres"
-	ru "github.com/ant1freeze/grpcshortener/shorter_server/randomurl"
-	cfg "github.com/ant1freeze/grpcshortener/config"
+	cr "github.com/ant1freeze/grpcshortener/internal/createurl"
+	get "github.com/ant1freeze/grpcshortener/internal/geturl"
+	pg "github.com/ant1freeze/grpcshortener/internal/postgres"
+	ru "github.com/ant1freeze/grpcshortener/internal/randomurl"
+	"github.com/ant1freeze/grpcshortener/configs"
 	"google.golang.org/grpc"
+	"github.com/joho/godotenv"
 	"log"
 	"net"
-)
-
-const (
-	port = ":50051"
 )
 
 // server is used to implement helloworld.GreeterServer.
@@ -44,23 +41,18 @@ type server struct {
 }
 
 var db *sql.DB
-var cfg cfg.Config
+var cfg config.Config
 
-const (
-	host     = "localhost"
-	dbport   = 5432
-	user     = "alex"
-	password = "alexpass"
-	dbname   = "alex"
-)
-
-//Make string for connect to DB
-var psqlconn string = fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable",cfg.DB.DBUser, cfg.DB.DBPass, cfg.DB.DBHost, cfg.DB.DBPort, cfg.DB.DBName)
-//var psqlconn string = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, dbport, user, password, dbname)
+func init() {
+    // loads values from .env into the system
+    if err := godotenv.Load(); err != nil {
+	log.Print("No .env file found")
+    }
+}
 
 func (s *server) CreateUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, error) {
 	log.Printf("\nMethod: Create\nReceived url: %v", in.GetUrlreq())
-	db, err := pg.Postgres(psqlconn)//open and check db
+	db, err := pg.Postgres()//open and check db
 	if err != nil {
 		return &pb.UrlReply{Urlrep: "error with db"}, err
 	}
@@ -83,7 +75,7 @@ func (s *server) CreateUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply
 
 func (s *server) GetUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, error) {
 	log.Printf("\nMethod: Get\nReceived url: %v", in.GetUrlreq())
-	db, err := pg.Postgres(psqlconn) //open and check db
+	db, err := pg.Postgres() //open and check db
 	if err != nil {
 		return &pb.UrlReply{Urlrep: "error with db"}, err
 	}
@@ -95,7 +87,17 @@ func (s *server) GetUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, e
 }
 
 func main() {
-	lis, err := net.Listen("tcp", cfg.DB.HTTP_PORT)
+	conf := config.NewConfig()
+
+	// Print out environment variables
+	fmt.Println(conf.DB.DBUser)
+	fmt.Println(conf.DB.DBPass)
+	fmt.Println(conf.DB.DBHost)
+	fmt.Println(conf.DB.DBName)
+	fmt.Println(conf.DB.DBPort)
+	fmt.Println(conf.HttpPort)
+
+	lis, err := net.Listen("tcp", conf.HttpPort)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
