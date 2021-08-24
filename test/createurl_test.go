@@ -4,7 +4,7 @@ import (
 	"testing"
 	"regexp"
 	"fmt"
-	cr "github.com/ant1freeze/grpcshortener/shorter_server/createurl"
+	cr "github.com/ant1freeze/grpcshortener/internal/createurl"
 	"database/sql"
         _ "github.com/lib/pq"
 
