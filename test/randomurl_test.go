@@ -3,7 +3,7 @@ package postgres
 import (
 	"testing"
 	"regexp"
-	ru "github.com/ant1freeze/grpcshortener/shorter_server/randomurl"
+	ru "github.com/ant1freeze/grpcshortener/internal/randomurl"
 )
 
 func TestRandomUrl(t *testing.T) {
