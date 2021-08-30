@@ -22,7 +22,6 @@ package main
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	pb "github.com/ant1freeze/grpcshortener"
 	cr "github.com/ant1freeze/grpcshortener/internal/createurl"
 	get "github.com/ant1freeze/grpcshortener/internal/geturl"
@@ -30,7 +29,6 @@ import (
 	ru "github.com/ant1freeze/grpcshortener/internal/randomurl"
 	"github.com/ant1freeze/grpcshortener/configs"
 	"google.golang.org/grpc"
-	"github.com/joho/godotenv"
 	"log"
 	"net"
 )
@@ -42,13 +40,6 @@ type server struct {
 
 var db *sql.DB
 var cfg config.Config
-
-func init() {
-    // loads values from .env into the system
-    if err := godotenv.Load(); err != nil {
-	log.Print("No .env file found")
-    }
-}
 
 func (s *server) CreateUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, error) {
 	log.Printf("\nMethod: Create\nReceived url: %v", in.GetUrlreq())
@@ -87,15 +78,10 @@ func (s *server) GetUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, e
 }
 
 func main() {
-	conf := config.NewConfig()
-
-	// Print out environment variables
-	fmt.Println(conf.DB.DBUser)
-	fmt.Println(conf.DB.DBPass)
-	fmt.Println(conf.DB.DBHost)
-	fmt.Println(conf.DB.DBName)
-	fmt.Println(conf.DB.DBPort)
-	fmt.Println(conf.HttpPort)
+	conf, err := config.LoadConfig("/home/alex/go/src/github.com/ant1freeze/grpcshortener")
+        if err != nil {
+                log.Fatal("Can't get config from env file", err)
+        }
 
 	lis, err := net.Listen("tcp", conf.HttpPort)
 	if err != nil {

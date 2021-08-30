@@ -1,40 +1,35 @@
 package config
 
 import (
-	"os"
-	"log"
-	"github.com/joho/godotenv"
+	"github.com/spf13/viper"
 )
 
 type Config struct {
-	DB DB
-	HttpPort         string
+	DBUser string `mapstructure:"DB_USER"`
+	DBPass string `mapstructure:"DB_PASSWORD"`
+	DBName string `mapstructure:"DB_NAME"`
+	DBHost string `mapstructure:"DB_HOST"`
+	DBPort string `mapstructure:"DB_PORT"`
+	HttpPort         string `mapstructure:"HTTP_PORT"`
 }
 
-type DB struct {
-	DBUser string
-	DBPass string
-	DBName string
-	DBHost string
-	DBPort string
-}
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigName("app")
+	viper.SetConfigType("env")
+	viper.AutomaticEnv()
 
-
-func NewConfig() *Config {
-	err := godotenv.Load(".env")
+	err = viper.ReadInConfig()
 	if err != nil {
-		log.Printf("no .env file, reading config from OS ENV variables")
+		return
 	}
-	return &Config{
-		DB: DB{
-			DBUser:           os.Getenv("DB_USER"),
-			DBPass:           os.Getenv("DB_PASSWORD"),
-			DBName:           os.Getenv("DB_NAME"),
-			DBHost:           os.Getenv("DB_HOST"),
-			DBPort:           os.Getenv("DB_PORT"),
-		},
-		HttpPort:         os.Getenv("HTTP_PORT"),
+
+	err = viper.Unmarshal(&config)
+	if err != nil {
+		return
 	}
+
+	return
 }
 
 
