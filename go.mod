@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/joho/godotenv v1.3.0
+	github.com/labstack/echo/v4 v4.5.0 // indirect
 	github.com/lib/pq v1.10.2
 	github.com/spf13/viper v1.8.1 // indirect
 	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
