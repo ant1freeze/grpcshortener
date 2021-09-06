@@ -16,12 +16,11 @@ var cfg config.Config
 
 func Postgres () (*sql.DB, error) {
         // open database
-	conf, err := config.LoadConfig()
+	conf, err := config.LoadConfig("$HOME/go/src/github.com/ant1freeze/grpcshortener/configs")
 	if err != nil {
 		log.Fatal("Can't get config from env file", err)
 	}
 	var psqlconn string = fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable",conf.DBUser, conf.DBPass, conf.DBHost, conf.DBPort, conf.DBName)
-	fmt.Println(psqlconn)
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
 		return db, err

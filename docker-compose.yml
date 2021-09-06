@@ -14,3 +14,10 @@ services:
                         dockerfile: ./Dockerfile_server
                         network: "host"
                 image: shorter_server
+        goose:
+                build:
+                        context: .
+                        dockerfile: ./Dockerfile_goose
+                        network: "host"
+                image: goose
+

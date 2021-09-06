@@ -30,21 +30,17 @@ import (
 	pb "github.com/ant1freeze/grpcshortener"
 )
 
-//const (
-//	address     = "localhost"
-//)
-
 var	cfg config.Config
 
 
 func main() {
-	conf, err := config.LoadConfig()
+	conf, err := config.LoadConfig("$HOME/go/src/github.com/ant1freeze/grpcshortener/configs")
         if err != nil {
                 log.Fatal("Can't get config from env file", err)
         }
 	var serverAddr = conf.DBHost+conf.HttpPort
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(serverAddr, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(serverAddr, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithTimeout(5 * time.Second))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

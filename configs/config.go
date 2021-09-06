@@ -13,8 +13,8 @@ type Config struct {
 	HttpPort         string `mapstructure:"HTTP_PORT"`
 }
 
-func LoadConfig() (config Config, err error) {
-	viper.AddConfigPath("./configs")
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
 	viper.SetConfigName("app")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()

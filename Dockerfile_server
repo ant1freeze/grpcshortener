@@ -12,8 +12,6 @@ COPY ./configs/app.env /app
 
 RUN go mod download
 
-RUN goose -dir migrations/ postgres "postgresql://alex:alexpass@localhost:5432/alex?sslmode=disable" up
-
 RUN go build -o shorter_server ./cmd/shorter_server/main.go
 
 EXPOSE 50051
