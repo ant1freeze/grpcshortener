@@ -1,0 +1,15 @@
+FROM golang:alpine
+
+RUN apk add build-base
+
+RUN go get "github.com/pressly/goose/cmd/goose"
+
+RUN mkdir -p /opt/db
+ONBUILD ADD ./migrations /opt/db/migrations
+
+WORKDIR /opt/
+
+ENTRYPOINT ["/usr/local/go/bin/goose ${DB_DRIVER} postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable"]
+##postgres postgresql://alex:alexpass@localhost:5432/alex?sslmode=disable"]
+CMD ["up"]
+
