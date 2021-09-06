@@ -1,15 +1,35 @@
-FROM golang:alpine
+#FROM golang:alpine
 
-RUN apk add build-base
+#RUN apk add build-base
 
-RUN go get "github.com/pressly/goose/cmd/goose"
+#RUN go get "github.com/pressly/goose/cmd/goose"
 
-RUN mkdir -p /opt/db
-ONBUILD ADD ./migrations /opt/db/migrations
+#RUN mkdir -p /opt/db
+#ONBUILD ADD ./migrations /opt/db/migrations
 
-WORKDIR /opt/
+#WORKDIR /opt/
 
-ENTRYPOINT ["/usr/local/go/bin/goose ${DB_DRIVER} postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable"]
+#ENTRYPOINT ["/usr/local/go/bin/goose ${DB_DRIVER} postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable"]
 ##postgres postgresql://alex:alexpass@localhost:5432/alex?sslmode=disable"]
-CMD ["up"]
+#CMD ["up"]
+
+
+
+#syntax=docker/dockerfile:1
+
+FROM golang:1.16-alpine
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+
+COPY . ./
+
+COPY ./configs/app.env /app
+
+RUN go mod download
+
+RUN go build -o ./migrations/goose ./migrations/main.go
+
+ENTRYPOINT ["./migrations/goose"]
 
