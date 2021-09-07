@@ -78,7 +78,7 @@ func (s *server) GetUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, e
 }
 
 func main() {
-	conf, err := config.LoadConfig("$HOME/go/src/github.com/ant1freeze/grpcshortener/configs")
+	conf, err := config.LoadConfig(".")//"$HOME/go/src/github.com/ant1freeze/grpcshortener/configs")
         if err != nil {
                 log.Fatal("Can't get config from env file", err)
         }

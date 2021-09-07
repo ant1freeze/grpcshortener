@@ -16,7 +16,7 @@ var cfg config.Config
 
 func Postgres () (*sql.DB, error) {
         // open database
-	conf, err := config.LoadConfig("$HOME/go/src/github.com/ant1freeze/grpcshortener/configs")
+	conf, err := config.LoadConfig(".")//"$HOME/go/src/github.com/ant1freeze/grpcshortener/configs")
 	if err != nil {
 		log.Fatal("Can't get config from env file", err)
 	}
