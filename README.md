@@ -4,7 +4,7 @@ And this service can take a short url as input and convert it to a long one, if 
 
 The project is built on the base of gRPC framework, use PostgreSQL and include gRPC server, gRPC client and goose (for initial migration) in docker cintainers.
 
-<h5>Before install grpcshotener you need **install postgreSQL** and **create password for default user postgresql if not exists:</h5>
+**Before install** grpcshotener you need **install postgreSQL** and **create password for default user postgresql if not exists:
 
 ```linux
 user:~$ sudo -i -u postgres
@@ -13,6 +13,9 @@ postgres@user:~$ psql
 
 postgres=# ALTER USER postgres PASSWORD 'mynewpassword';
 ```
+
+And then add this credentials to ./configs/app.env
+
 **OR**
 
 You can **create user/password and database for it**, for example:
