@@ -43,8 +43,8 @@ After 2 docker containers were up you can run client with args:
 
 <h6>For CREATE short url:</h6>
 
-```linux
-user:~$ docker run --net=host shorter_client create url
+ ```linux
+user:~$ docker run --net=host shorter_client create google.com
  ```
  
  return:
@@ -55,8 +55,8 @@ user:~$ docker run --net=host shorter_client create url
  
  <h6>For GET long url from db:</h6>
  
- ```linux
- user:~$ docker run --net=host shorter_client get url
+   ```linux
+ user:~$ docker run --net=host shorter_client get gvahJggOzY
   ```
   
   return:
@@ -67,4 +67,14 @@ user:~$ docker run --net=host shorter_client create url
   
   If long url doesn't exist in database - return "Didn't find anything."
   
+  ```linux
+  user:~$ docker run --net=host shorter_client get aaaaaa
+  2021/09/08 13:09:14 Didn't find anything.
+  ```
   
+  If you write only get/create without url or nothing, docker will return help:
+   
+  ```linux
+  user:~$ docker run --net=host shorter_client get
+  2021/09/08 13:10:11 Need type 'get <short URL>' or 'create <long URL>'
+  ```
