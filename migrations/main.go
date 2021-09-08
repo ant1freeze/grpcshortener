@@ -2,9 +2,10 @@ package main
 
 import (
         "database/sql"
-        _ "github.com/lib/pq"
         "fmt"
+
         "github.com/pressly/goose/v3"
+        _ "github.com/lib/pq"
         pg "github.com/ant1freeze/grpcshortener/internal/postgres"
         "github.com/ant1freeze/grpcshortener/configs"
 )
@@ -23,7 +24,7 @@ func main() {
         if err != nil {
                 panic(err)
         }
-        if err := goose.Up(db, "."); err != nil {
+        if err := goose.Up(db, "./migrations"); err != nil {
                 panic(err)
         }
 }
