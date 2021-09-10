@@ -5,9 +5,10 @@ package postgres
 
 import  (
 	"database/sql"
-	_ "github.com/lib/pq"
 	"log"
 	"fmt"
+	
+	_ "github.com/lib/pq"
 	"github.com/ant1freeze/grpcshortener/configs"
 )
 
