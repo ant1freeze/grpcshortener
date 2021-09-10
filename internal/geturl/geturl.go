@@ -10,7 +10,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var 	db *sql.DB
 
 func SelectLongUrl(shorturl string, database *sql.DB) (longurl string, err error) {
 	selectStr := fmt.Sprintf("SELECT longurl FROM urls WHERE shorturl = '%s'", shorturl)
