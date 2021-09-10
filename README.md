@@ -4,6 +4,22 @@ And this service can take a short url as input and convert it to a long one, if 
 
 The project is built on the base of gRPC framework, use PostgreSQL and include gRPC server, gRPC client and goose (for initial migration) in docker cintainers.
 
+**Requirements**:
+
+    Docker version 19.03.5, build 633a0ea838
+
+    docker-compose version 1.25.3, build d4d1b42b
+
+**Usage**:
+
+    All docker containers based on golang:1.16-alpine 
+
+    Database: psql (PostgreSQL) 11.12 (Debian 11.12-0+deb10u1)
+
+    For migrations: github.com/pressly/goose/v3
+
+    For get env args: github.com/spf13/viper
+
 **Before install** grpcshotener you need **install postgreSQL** and **create password for default user postgresql if not exists:
 
 ```linux
