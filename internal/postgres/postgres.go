@@ -12,8 +12,8 @@ import  (
 	"github.com/ant1freeze/grpcshortener/configs"
 )
 
-var db *sql.DB
-var cfg config.Config
+var 	db *sql.DB
+var 	cfg config.Config
 
 func Postgres () (*sql.DB, error) {
         // open database
