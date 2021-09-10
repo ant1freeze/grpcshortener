@@ -8,7 +8,7 @@ import  (
 	"time"
 )
 
-const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+const 	letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 
 func CreateRandomUrl(i int) string {
         rand.Seed(time.Now().UnixNano())
