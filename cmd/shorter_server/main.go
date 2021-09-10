@@ -22,6 +22,9 @@ package main
 import (
 	"context"
 	"database/sql"
+	"log"
+	"net"
+
 	pb "github.com/ant1freeze/grpcshortener"
 	cr "github.com/ant1freeze/grpcshortener/internal/createurl"
 	get "github.com/ant1freeze/grpcshortener/internal/geturl"
@@ -29,11 +32,10 @@ import (
 	ru "github.com/ant1freeze/grpcshortener/internal/randomurl"
 	"github.com/ant1freeze/grpcshortener/configs"
 	"google.golang.org/grpc"
-	"log"
-	"net"
+
 )
 
-// server is used to implement helloworld.GreeterServer.
+// server is used to implement gRPC ShortenerServer.
 type server struct {
 	pb.UnimplementedUrlShortenerServer
 }
