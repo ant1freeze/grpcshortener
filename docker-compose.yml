@@ -1,13 +1,5 @@
 version: '3.7'
 services:
-        #        client:
-        #       build:
-        #               context: .
-        #               dockerfile: ./Dockerfile_client
-        #               network: "host"
-        #       image: shorter_client
-        #       depends_on:
-        #               - server
         server:
                build:
                        context: .
