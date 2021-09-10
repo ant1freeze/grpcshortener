@@ -35,6 +35,8 @@ user:~$ git clone https://github.com/ant1freeze/grpcshortener.git
 
 user:~$ cd grpcshortener
 
+user:~$ docker build . -t=shorter_client -f=Dockerfile_client
+
 user:~$ docker-compose up --build
 ```
 
