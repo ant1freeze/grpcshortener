@@ -40,8 +40,8 @@ type server struct {
 	pb.UnimplementedUrlShortenerServer
 }
 
-var db *sql.DB
-var cfg config.Config
+var 	db *sql.DB
+var 	cfg config.Config
 
 func (s *server) CreateUrl(ctx context.Context, in *pb.UrlRequest) (*pb.UrlReply, error) {
 	log.Printf("\nMethod: Create\nReceived url: %v", in.GetUrlreq())
